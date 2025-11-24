@@ -36,10 +36,8 @@ class Solution {
                 return true;
             }
         }
-
         return false;
     }
-
     // Compare arrays with basic loop
     private boolean matches(int[] a, int[] b) {
         for (int i = 0; i < 26; i++) {

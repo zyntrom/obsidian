@@ -445,8 +445,87 @@ class Solution {
 
 ```
 
-## 12.Three Sum
+## 12.Three Sum Closest
 
 ```java
+import java.util.*;
+
+class Solution {
+    public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        // Start with any possible sum
+        int closestSum = nums[0] + nums[1] + nums[2];
+        for (int i = 0; i < n - 2; i++) {
+            int left = i + 1;
+            int right = n - 1;
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                // Check if this is closer to the target
+                if (Math.abs(sum - target) < Math.abs(closestSum - target)) {
+                    closestSum = sum;
+                }
+                if (sum < target) {
+                    left++;     // need a larger sum
+                } else if (sum > target) {
+                    right--;    // need a smaller sum
+                } else {
+                    // exactly equal → best possible
+                    return sum;
+                }
+            }
+        }
+        return closestSum;
+    }
+}
+
+```
+
+## 13.Permutation Sequence
+
+```
+import java.util.*;
+
+class Solution {
+    public String getPermutation(int n, int k) {
+        // list of available numbers
+        List<Integer> nums = new ArrayList<>();
+        for (int i = 1; i <= n; i++) {
+            nums.add(i);
+        }
+
+        // factorial table
+        int[] fact = new int[n + 1];
+        fact[0] = 1;
+        for (int i = 1; i <= n; i++) {
+            fact[i] = fact[i - 1] * i;
+        }
+
+        // answer string
+        StringBuilder result = new StringBuilder();
+
+        // convert k to zero-based index
+        int index = k - 1;
+
+        // build permutation
+        for (int i = n; i > 0; i--) {
+
+            int blockSize = fact[i - 1];
+
+            int selected = index / blockSize;
+
+            // append the selected number
+            result.append(nums.get(selected));
+
+            // remove it from list
+            nums.remove(selected);
+
+            // update index for next position
+            index = index % blockSize;
+        }
+
+        return result.toString();
+    }
+}
 
 ```

@@ -483,7 +483,7 @@ class Solution {
 
 ## 13.Permutation Sequence
 
-```
+```java
 import java.util.*;
 
 class Solution {
@@ -493,37 +493,27 @@ class Solution {
         for (int i = 1; i <= n; i++) {
             nums.add(i);
         }
-
         // factorial table
         int[] fact = new int[n + 1];
         fact[0] = 1;
         for (int i = 1; i <= n; i++) {
             fact[i] = fact[i - 1] * i;
         }
-
         // answer string
         StringBuilder result = new StringBuilder();
-
         // convert k to zero-based index
         int index = k - 1;
-
         // build permutation
         for (int i = n; i > 0; i--) {
-
             int blockSize = fact[i - 1];
-
             int selected = index / blockSize;
-
             // append the selected number
             result.append(nums.get(selected));
-
             // remove it from list
             nums.remove(selected);
-
             // update index for next position
             index = index % blockSize;
         }
-
         return result.toString();
     }
 }

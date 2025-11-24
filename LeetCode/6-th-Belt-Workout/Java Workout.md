@@ -310,12 +310,54 @@ class Solution {
         }
         int digit = digits.charAt(index) - '0';
         String letters = mapping[digit];
-
         for (int i = 0; i < letters.length(); i++) {
             char ch = letters.charAt(i);
             backtrack(digits, index + 1, current + ch, result);
         }
     }
 }
+
+```
+
+## 9.Maximize the Confusion of an Exam
+
+```java
+class Solution {
+
+    public int maxConsecutiveAnswers(String s, int k) {
+        int maxT = longestChar(s, k, 'T');
+        int maxF = longestChar(s, k, 'F');
+        return Math.max(maxT, maxF);
+    }
+    // find longest substring that can be turned into char 'ch'
+    private int longestChar(String s, int k, char ch) {
+        int left = 0;
+        int countFlips = 0;
+        int maxLen = 0;
+        for (int right = 0; right < s.length(); right++) {
+            if (s.charAt(right) != ch) {
+                countFlips++;  // we need to flip this
+            }
+            // shrink window if flips exceed k
+            while (countFlips > k) {
+                if (s.charAt(left) != ch) {
+                    countFlips--;
+                }
+                left++;
+            }
+            int windowLen = right - left + 1;
+            if (windowLen > maxLen) {
+                maxLen = windowLen;
+            }
+        }
+        return maxLen;
+    }
+}
+
+```
+
+## 10.Gold Mine Problem
+
+```java
 
 ```

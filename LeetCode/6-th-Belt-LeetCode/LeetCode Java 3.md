@@ -171,3 +171,118 @@ class Solution {
 
 ## 39. Combination Sum
 
+```embed
+title: "Combination Sum - LeetCode"
+image: "https://leetcode.com/static/images/LeetCode_Sharing.png"
+description: "Can you solve this real interview question? Combination Sum - Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.  The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the frequency of at least one of the chosen numbers is different.  The test cases are generated such that the number of unique combinations that sum up to target is less than 150 combinations for the given input.     Example 1:   Input: candidates = [2,3,6,7], target = 7 Output: [[2,2,3],[7]] Explanation: 2 and 3 are candidates, and 2 + 2 + 3 = 7. Note that 2 can be used multiple times. 7 is a candidate, and 7 = 7. These are the only two combinations.   Example 2:   Input: candidates = [2,3,5], target = 8 Output: [[2,2,2,2],[2,3,3],[3,5]]   Example 3:   Input: candidates = [2], target = 1 Output: []      Constraints:   * 1 <= candidates.length <= 30  * 2 <= candidates[i] <= 40  * All elements of candidates are distinct.  * 1 <= target <= 40"
+url: "https://leetcode.com/problems/combination-sum/description/"
+favicon: ""
+aspectRatio: "52"
+```
+
+```java
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(candidates);  
+        backtrack(candidates, target, 0, new ArrayList<>(), result);
+        return result;
+    }
+    private void backtrack(int[] candidates, int target, int start, 
+                           List<Integer> temp, List<List<Integer>> result) {
+        if (target == 0) {
+            result.add(new ArrayList<>(temp));
+            return;
+        }
+        for (int i = start; i < candidates.length; i++) {
+            if (candidates[i] > target) break;  // optimization
+            temp.add(candidates[i]);
+            backtrack(candidates, target - candidates[i], i, temp, result); 
+            temp.remove(temp.size() - 1);
+        }
+    }
+}
+
+```
+
+## 40. Combination Sum II
+
+```embed
+title: "Combination Sum II - LeetCode"
+image: "https://leetcode.com/static/images/LeetCode_Sharing.png"
+description: "Can you solve this real interview question? Combination Sum II - Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target.  Each number in candidates may only be used once in the combination.  Note: The solution set must not contain duplicate combinations.     Example 1:   Input: candidates = [10,1,2,7,6,1,5], target = 8 Output:  [ [1,1,6], [1,2,5], [1,7], [2,6] ]   Example 2:   Input: candidates = [2,5,2,1,2], target = 5 Output:  [ [1,2,2], [5] ]      Constraints:   * 1 <= candidates.length <= 100  * 1 <= candidates[i] <= 50  * 1 <= target <= 30"
+url: "https://leetcode.com/problems/combination-sum-ii/description/"
+favicon: ""
+aspectRatio: "52"
+```
+
+```java
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(candidates); // important to skip duplicates
+        backtrack(candidates, target, 0, new ArrayList<>(), result);
+        return result;
+    }
+    private void backtrack(int[] nums, int target, int start,
+            List<Integer> temp, List<List<Integer>> result) {
+        if (target == 0) {
+            result.add(new ArrayList<>(temp));
+            return;
+        }
+        for (int i = start; i < nums.length; i++) {
+            // 🔥 Avoid duplicates at the same tree level
+            if (i > start && nums[i] == nums[i - 1]) continue;
+            // If the number exceeds target, no need to continue
+            if (nums[i] > target) break;
+            temp.add(nums[i]);
+            backtrack(nums, target - nums[i], i + 1, temp, result); 
+            // move i+1 because we can't reuse
+            temp.remove(temp.size() - 1);
+        }
+    }
+}
+
+```
+
+## 491. Non-decreasing Subsequences
+
+```embed
+title: "Non-decreasing Subsequences - LeetCode"
+image: "https://leetcode.com/static/images/LeetCode_Sharing.png"
+description: "Can you solve this real interview question? Non-decreasing Subsequences - Given an integer array nums, return all the different possible non-decreasing subsequences of the given array with at least two elements. You may return the answer in any order.     Example 1:   Input: nums = [4,6,7,7] Output: [[4,6],[4,6,7],[4,6,7,7],[4,7],[4,7,7],[6,7],[6,7,7],[7,7]]   Example 2:   Input: nums = [4,4,3,2,1] Output: [[4,4]]      Constraints:   * 1 <= nums.length <= 15  * -100 <= nums[i] <= 100"
+url: "https://leetcode.com/problems/non-decreasing-subsequences/description/"
+favicon: ""
+aspectRatio: "52"
+```
+
+```java
+class Solution {
+    public List<List<Integer>> findSubsequences(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        backtrack(0, nums, new ArrayList<>(), result);
+        return result;
+    }
+
+    private void backtrack(int index, int[] nums, List<Integer> path, List<List<Integer>> result) {
+        if (path.size() >= 2) {
+            result.add(new ArrayList<>(path));
+        }
+        HashSet<Integer> used = new HashSet<>(); 
+        // avoid duplicates at same level
+        for (int i = index; i < nums.length; i++) {
+            // skip duplicates at this depth
+            if (used.contains(nums[i])) continue;
+            // enforce non-decreasing order
+            if (!path.isEmpty() && nums[i] < path.get(path.size() - 1)) continue;
+            used.add(nums[i]);    // mark used at this recursion level
+            path.add(nums[i]);
+
+            backtrack(i + 1, nums, path, result);
+
+            path.remove(path.size() - 1);
+        }
+    }
+}
+
+```

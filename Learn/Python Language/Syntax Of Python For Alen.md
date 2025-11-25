@@ -188,9 +188,11 @@ matrix[1][1] = 99 # Update value
 
 #### 🔁 Loop Through 2D Array
 
+```python
 for row in matrix:  
   for val in row:  
     print(val, end=" ")
+```
 
 ---
 

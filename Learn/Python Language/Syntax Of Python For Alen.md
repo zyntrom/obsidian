@@ -226,8 +226,16 @@ for row in matrix:
 #### 📥 Input Example (single-line row-wise)
 
 ```python
-matrix = list(map(int, input().split())) 
-for _ in range(3)
+matrix = [list(map(int, input().split())) for _ in range(3)]
+```
+
+or
+
+```python
+matrix = []
+for _ in range(3):
+    row = list(map(int, input().split()))
+    matrix.append(row)
 ```
 
 ```

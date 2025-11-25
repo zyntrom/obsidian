@@ -1,5 +1,7 @@
 ## 31. Next Permutation
 
+### Array Manipulation
+
 ```embed
 title: "Next Permutation - LeetCode"
 image: "https://leetcode.com/static/images/LeetCode_Sharing.png"
@@ -8,7 +10,6 @@ url: "https://leetcode.com/problems/next-permutation/description/"
 favicon: ""
 aspectRatio: "52"
 ```
-
 
 ```java
 class Solution {
@@ -47,6 +48,8 @@ class Solution {
 
 ## 50. Pow(x, n)
 
+### Divide and Conquer
+
 ```embed
 title: "Pow(x, n) - LeetCode"
 image: "https://leetcode.com/static/images/LeetCode_Sharing.png"
@@ -56,7 +59,91 @@ favicon: ""
 aspectRatio: "52"
 ```
 
+```java
+class Solution {
+    public double myPow(double x, int n) {
+        long N = n;            // convert to long to avoid overflow
+        if (N < 0) {
+            x = 1 / x;
+            N = -N;
+        }
+        return fastPow(x, N);
+    }
+    private double fastPow(double x, long n) {
+        if (n == 0) return 1.0;
+        double half = fastPow(x, n / 2);
+        if (n % 2 == 0) {
+            return half * half;
+        } else {
+            return half * half * x;
+        }
+    }
+}
+
+```
+
+## 1040. Moving Stones Until Consecutive II
+
+### Greedy/Sliding Window
+
+```embed
+title: "Moving Stones Until Consecutive II - LeetCode"
+image: "https://leetcode.com/static/images/LeetCode_Sharing.png"
+description: "Can you solve this real interview question? Moving Stones Until Consecutive II - There are some stones in different positions on the X-axis. You are given an integer array stones, the positions of the stones.  Call a stone an endpoint stone if it has the smallest or largest position. In one move, you pick up an endpoint stone and move it to an unoccupied position so that it is no longer an endpoint stone.   * In particular, if the stones are at say, stones = [1,2,5], you cannot move the endpoint stone at position 5, since moving it to any position (such as 0, or 3) will still keep that stone as an endpoint stone.  The game ends when you cannot make any more moves (i.e., the stones are in three consecutive positions).  Return an integer array answer of length 2 where:   * answer[0] is the minimum number of moves you can play, and  * answer[1] is the maximum number of moves you can play.     Example 1:   Input: stones = [7,4,9] Output: [1,2] Explanation: We can move 4 -> 8 for one move to finish the game. Or, we can move 9 -> 5, 4 -> 6 for two moves to finish the game.   Example 2:   Input: stones = [6,5,4,3,10] Output: [2,3] Explanation: We can move 3 -> 8 then 10 -> 7 to finish the game. Or, we can move 3 -> 7, 4 -> 8, 5 -> 9 to finish the game. Notice we cannot move 10 -> 2 to finish the game, because that would be an illegal move.      Constraints:   * 3 <= stones.length <= 104  * 1 <= stones[i] <= 109  * All the values of stones are unique."
+url: "https://leetcode.com/problems/moving-stones-until-consecutive-ii/description/"
+favicon: ""
+aspectRatio: "52"
+```
 
 ```java
+import java.util.Arrays;
+
+class Solution {
+    public int[] numMovesStonesII(int[] stones) {
+        Arrays.sort(stones);
+        int x = stones[0], y = stones[1], z = stones[2];
+        // Maximum moves
+        int maxMoves = (y - x - 1) + (z - y - 1);
+        // Minimum moves
+        int minMoves;
+        if (y - x == 1 && z - y == 1) {
+            minMoves = 0;  // already consecutive
+        } else if (y - x <= 2 || z - y <= 2) {
+            minMoves = 1;  // one move enough
+        } else {
+            minMoves = 2;  // otherwise need 2 moves
+        }
+        return new int[]{minMoves, maxMoves};
+    }
+}
+
+```
+
+## 2592. Maximize Greatness of an Array
+
+### Greedy/Sorting
+
+```java
+import java.util.Arrays;
+
+class Solution {
+    public int maximizeGreatness(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        int i = 0, j = 0, greatness = 0;
+
+        while (i < n && j < n) {
+            if (nums[j] > nums[i]) {
+                greatness++;
+                i++;
+                j++;
+            } else {
+                j++;
+            }
+        }
+
+        return greatness;
+    }
+}
 
 ```

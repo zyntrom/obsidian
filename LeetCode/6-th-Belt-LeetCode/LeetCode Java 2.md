@@ -68,4 +68,62 @@ class Solution {
 }
 ```
 
-##
+## 53. Maximum Subarray
+
+```embed
+title: "Maximum Subarray - LeetCode"
+image: "https://leetcode.com/static/images/LeetCode_Sharing.png"
+description: "Can you solve this real interview question? Maximum Subarray - Given an integer array nums, find the subarray with the largest sum, and return its sum.     Example 1:   Input: nums = [-2,1,-3,4,-1,2,1,-5,4] Output: 6 Explanation: The subarray [4,-1,2,1] has the largest sum 6.   Example 2:   Input: nums = [1] Output: 1 Explanation: The subarray [1] has the largest sum 1.   Example 3:   Input: nums = [5,4,-1,7,8] Output: 23 Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.      Constraints:   * 1 <= nums.length <= 105  * -104 <= nums[i] <= 104     Follow up: If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more subtle."
+url: "https://leetcode.com/problems/maximum-subarray/description/"
+favicon: ""
+aspectRatio: "52"
+```
+
+```java
+class Solution {
+
+    public int maxSubArray(int[] nums) {
+        int currentSum = nums[0];
+        int maxSum = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            // extend or restart
+            currentSum = Math.max(nums[i], currentSum + nums[i]);
+            maxSum = Math.max(maxSum, currentSum);
+        }
+        return maxSum;
+    }
+}
+
+```
+
+## 416. Partition Equal Subset Sum
+
+```embed
+title: "Partition Equal Subset Sum - LeetCode"
+image: "https://leetcode.com/static/images/LeetCode_Sharing.png"
+description: "Can you solve this real interview question? Partition Equal Subset Sum - Given an integer array nums, return true if you can partition the array into two subsets such that the sum of the elements in both subsets is equal or false otherwise.     Example 1:   Input: nums = [1,5,11,5] Output: true Explanation: The array can be partitioned as [1, 5, 5] and [11].   Example 2:   Input: nums = [1,2,3,5] Output: false Explanation: The array cannot be partitioned into equal sum subsets.      Constraints:   * 1 <= nums.length <= 200  * 1 <= nums[i] <= 100"
+url: "https://leetcode.com/problems/partition-equal-subset-sum/description/"
+favicon: ""
+aspectRatio: "52"
+```
+
+```java
+class Solution {
+    public boolean canPartition(int[] nums) {
+        int total = 0;
+        for (int num : nums) total += num;
+        // If total sum is odd → cannot partition
+        if (total % 2 != 0) return false;
+        int target = total / 2;
+        boolean[] dp = new boolean[target + 1];
+        dp[0] = true; // base case
+        for (int num : nums) {
+            for (int s = target; s >= num; s--) {
+                dp[s] = dp[s] || dp[s - num];
+            }
+        }
+        return dp[target];
+    }
+}
+
+```

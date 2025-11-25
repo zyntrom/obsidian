@@ -123,6 +123,15 @@ class Solution {
 
 ### Greedy/Sorting
 
+```embed
+title: "Maximize Greatness of an Array - LeetCode"
+image: "https://leetcode.com/static/images/LeetCode_Sharing.png"
+description: "Can you solve this real interview question? Maximize Greatness of an Array - You are given a 0-indexed integer array nums. You are allowed to permute nums into a new array perm of your choosing.  We define the greatness of nums be the number of indices 0 <= i < nums.length for which perm[i] > nums[i].  Return the maximum possible greatness you can achieve after permuting nums.     Example 1:   Input: nums = [1,3,5,2,1,3,1] Output: 4 Explanation: One of the optimal rearrangements is perm = [2,5,1,3,3,1,1]. At indices = 0, 1, 3, and 4, perm[i] > nums[i]. Hence, we return 4.  Example 2:   Input: nums = [1,2,3,4] Output: 3 Explanation: We can prove the optimal perm is [2,3,4,1]. At indices = 0, 1, and 2, perm[i] > nums[i]. Hence, we return 3.      Constraints:   * 1 <= nums.length <= 105  * 0 <= nums[i] <= 109"
+url: "https://leetcode.com/problems/maximize-greatness-of-an-array/description/"
+favicon: ""
+aspectRatio: "52"
+```
+
 ```java
 import java.util.Arrays;
 
@@ -131,7 +140,6 @@ class Solution {
         Arrays.sort(nums);
         int n = nums.length;
         int i = 0, j = 0, greatness = 0;
-
         while (i < n && j < n) {
             if (nums[j] > nums[i]) {
                 greatness++;
@@ -141,8 +149,88 @@ class Solution {
                 j++;
             }
         }
-
         return greatness;
+    }
+}
+
+```
+
+## 128. Longest Consecutive Sequence
+
+### Hash Table
+
+```embed
+title: "Longest Consecutive Sequence - LeetCode"
+image: "https://leetcode.com/static/images/LeetCode_Sharing.png"
+description: "Can you solve this real interview question? Longest Consecutive Sequence - Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.  You must write an algorithm that runs in O(n) time.     Example 1:   Input: nums = [100,4,200,1,3,2] Output: 4 Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.   Example 2:   Input: nums = [0,3,7,2,5,8,4,6,0,1] Output: 9   Example 3:   Input: nums = [1,0,1,2] Output: 3      Constraints:   * 0 <= nums.length <= 105  * -109 <= nums[i] <= 109"
+url: "https://leetcode.com/problems/longest-consecutive-sequence/description/"
+favicon: ""
+aspectRatio: "52"
+```
+
+```java
+import java.util.HashSet;
+
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+        int longest = 0;
+        for (int num : set) {
+            // check if this is the start of a sequence
+            if (!set.contains(num - 1)) {
+                int current = num;
+                int streak = 1;
+                while (set.contains(current + 1)) {
+                    current++;
+                    streak++;
+                }
+                longest = Math.max(longest, streak);
+            }
+        }
+        return longest;
+    }
+}
+
+```
+
+## 786. K-th Smallest Prime Fraction
+
+### Heap
+
+```embed
+title: "K-th Smallest Prime Fraction - LeetCode"
+image: "https://leetcode.com/static/images/LeetCode_Sharing.png"
+description: "Can you solve this real interview question? K-th Smallest Prime Fraction - You are given a sorted integer array arr containing 1 and prime numbers, where all the integers of arr are unique. You are also given an integer k.  For every i and j where 0 <= i < j < arr.length, we consider the fraction arr[i] / arr[j].  Return the kth smallest fraction considered. Return your answer as an array of integers of size 2, where answer[0] == arr[i] and answer[1] == arr[j].     Example 1:   Input: arr = [1,2,3,5], k = 3 Output: [2,5] Explanation: The fractions to be considered in sorted order are: 1/5, 1/3, 2/5, 1/2, 3/5, and 2/3. The third fraction is 2/5.   Example 2:   Input: arr = [1,7], k = 1 Output: [1,7]      Constraints:   * 2 <= arr.length <= 1000  * 1 <= arr[i] <= 3 * 104  * arr[0] == 1  * arr[i] is a prime number for i > 0.  * All the numbers of arr are unique and sorted in strictly increasing order.  * 1 <= k <= arr.length * (arr.length - 1) / 2     Follow up: Can you solve the problem with better than O(n2) complexity?"
+url: "https://leetcode.com/problems/k-th-smallest-prime-fraction/description/"
+favicon: ""
+aspectRatio: "52"
+```
+
+```java
+import java.util.*;
+
+class Solution {
+    public int[] kthSmallestPrimeFraction(int[] arr, int k) {
+        int n = arr.length;
+        PriorityQueue<int[]> pq = new PriorityQueue<>(
+            (a, b) -> arr[a[0]] * arr[b[1]] - arr[b[0]] * arr[a[1]]
+        );
+        // push fractions arr[i] / arr[n-1]
+        for (int i = 0; i < n - 1; i++) {
+            pq.offer(new int[]{i, n - 1});
+        }
+        while (k-- > 1) {
+            int[] top = pq.poll();
+            int i = top[0], j = top[1];
+            if (j - 1 > i) {
+                pq.offer(new int[]{i, j - 1});
+            }
+        }
+        int[] ans = pq.poll();
+        return new int[]{arr[ans[0]], arr[ans[1]]};
     }
 }
 

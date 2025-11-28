@@ -179,6 +179,7 @@ class Solution {
 
 ```
 
+# <>-Fix
 ## 1. Infix → Prefix
 
 ```java
@@ -230,5 +231,75 @@ class InfixToPrefix {
         System.out.println(infixToPrefix(exp)); // *-A/BC-/AKL
     }
 }
+
+```
+
+## 2. Postfix → Prefix
+
+```java
+import java.util.*;
+
+class PostfixToPrefix {
+    public static String convert(String postfix) {
+        Stack<String> st = new Stack<>();
+        for (char c : postfix.toCharArray()) {
+            if (Character.isLetterOrDigit(c)) {
+                st.push(c + "");
+            } else {
+                String op2 = st.pop();
+                String op1 = st.pop();
+                st.push(c + op1 + op2);
+            }
+        }
+        return st.peek();
+    }
+    public static void main(String[] args) {
+        String postfix = "ABC/-AK/L-*";
+        System.out.println(convert(postfix)); // *-A/BC-/AKL
+    }
+}
+
+```
+
+## 3. Prefix → Infix
+
+```java
+import java.util.*;
+
+class PrefixToInfix {
+    public static String convert(String prefix) {
+        Stack<String> st = new Stack<>();
+        for (int i = prefix.length() - 1; i >= 0; i--) {
+            char c = prefix.charAt(i);
+            if (Character.isLetterOrDigit(c)) {
+                st.push(c + "");
+            } else {
+                String op1 = st.pop();
+                String op2 = st.pop();
+                st.push("(" + op1 + c + op2 + ")");
+            }
+        }
+        return st.peek();
+    }
+    public static void main(String[] args) {
+        String prefix = "*-A/BC-/AKL";
+        System.out.println(convert(prefix)); // ((A-(B/C))*((A/K)-L))
+    }
+}
+
+```
+
+## 402. Remove K Digits
+
+```embed
+title: "Remove K Digits - LeetCode"
+image: "https://leetcode.com/static/images/LeetCode_Sharing.png"
+description: "Can you solve this real interview question? Remove K Digits - Given string num representing a non-negative integer num, and an integer k, return the smallest possible integer after removing k digits from num.     Example 1:   Input: num = \"1432219\", k = 3 Output: \"1219\" Explanation: Remove the three digits 4, 3, and 2 to form the new number 1219 which is the smallest.   Example 2:   Input: num = \"10200\", k = 1 Output: \"200\" Explanation: Remove the leading 1 and the number is 200. Note that the output must not contain leading zeroes.   Example 3:   Input: num = \"10\", k = 2 Output: \"0\" Explanation: Remove all the digits from the number and it is left with nothing which is 0.      Constraints:   * 1 <= k <= num.length <= 105  * num consists of only digits.  * num does not have any leading zeros except for the zero itself."
+url: "https://leetcode.com/problems/remove-k-digits/description/"
+favicon: ""
+aspectRatio: "52"
+```
+
+```java
 
 ```

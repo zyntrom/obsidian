@@ -1,5 +1,5 @@
 ## 31. Next Permutation 
-- [ ] Check 
+- [x] Check 
 ### Array Manipulation
 
 ```embed

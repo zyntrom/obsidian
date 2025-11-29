@@ -1,5 +1,4 @@
-## 31. Next Permutation
-
+- [ ] ## 31. Next Permutation 
 ### Array Manipulation
 
 ```embed

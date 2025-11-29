@@ -1,6 +1,6 @@
 ## 31. Next Permutation 
 - [ ] Check 
-### Array Manipulation
+### Array ManipulationA
 
 ```embed
 title: "Next Permutation - LeetCode"

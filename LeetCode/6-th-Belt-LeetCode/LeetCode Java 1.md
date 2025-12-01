@@ -79,7 +79,7 @@ class Solution {
 ```
 
 ## 1040. Moving Stones Until Consecutive II
-- [ ] Check 
+- [x] Check 
 ### Greedy/Sliding Window
 
 ```embed
@@ -118,7 +118,7 @@ class Solution {
             }
             minMoves = Math.min(minMoves, missing);
         }
-        return new int[]{minMoves, maxMoves};
+        return new int[]{minMoves, maxMoves+1};
     }
 }
 

@@ -125,7 +125,7 @@ class Solution {
 ```
 
 ## 2592. Maximize Greatness of an Array
-- [ ] Check 
+- [x] Check 
 ### Greedy/Sorting
 
 ```embed

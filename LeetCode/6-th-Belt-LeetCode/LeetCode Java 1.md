@@ -161,7 +161,7 @@ class Solution {
 ```
 
 ## 128. Longest Consecutive Sequence
-- [ ] Check 
+- [x] Check 
 ### Hash Table
 
 ```embed

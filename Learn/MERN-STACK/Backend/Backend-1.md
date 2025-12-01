@@ -133,11 +133,14 @@ module.exports =connectDB;
 ```js
 const express =require("express");
 const dotenv= require("dotenv");
-const connectDB= require("./service/db.js")
+
 dotenv.config();
 const PORT =process.env.PORT;
 
+//DATABASE Connection
+const connectDB= require("./service/db.js")
 connectDB();
+//DATABASE Connection
 
 const app =express();
 const homeRouter= require("./routes/homeRouter.js");
@@ -154,4 +157,24 @@ app.use((err,req,res,next)=>{
 })
 app.listen(PORT,()=>{
 	console.log("Server Running at port: "+PORT+" http://localhost:"+PORT);
+```
+
+## Setting up Dotenv (.env)
+
+- Install dotenv
+```bash
+npm i dotenv
+```
+
+### index.js
+
+```js
+const dotenv= require("dotenv");
+dotenv.config();
+```
+
+### Usage
+
+```js
+process.env.VARIABLE
 ```

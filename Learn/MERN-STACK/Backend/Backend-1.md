@@ -188,3 +188,6 @@ dotenv.config();
 ```js
 process.env.VARIABLE
 ```
+
+## Mongoose and DB models
+

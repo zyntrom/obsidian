@@ -159,6 +159,16 @@ app.listen(PORT,()=>{
 	console.log("Server Running at port: "+PORT+" http://localhost:"+PORT);
 ```
 
+### Error Handling 
+
+```js
+app.use((err,req,res,next)=>{
+	console.log(err);
+	res.status(err.status || 500).json({
+		"message":err.message || "Server Error"
+	})
+})
+```
 ## Setting up Dotenv (.env)
 
 - Install dotenv

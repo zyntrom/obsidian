@@ -104,6 +104,35 @@ module.exports =router;
  };
 ```
 
+### Error Handling 
+
+```js
+app.use((err,req,res,next)=>{
+	console.log(err);
+	res.status(err.status || 500).json({
+		"message":err.message || "Server Error"
+	})
+})
+```
+## Setting up Dotenv (.env)
+
+- Install dotenv
+```bash
+npm i dotenv
+```
+
+### index.js
+
+```js
+const dotenv= require("dotenv");
+dotenv.config();
+```
+
+### Usage
+
+```js
+process.env.VARIABLE
+```
 ## Database Connection (MongoDB)
 
 - Install mongoose 
@@ -159,35 +188,114 @@ app.listen(PORT,()=>{
 	console.log("Server Running at port: "+PORT+" http://localhost:"+PORT);
 ```
 
-### Error Handling 
-
-```js
-app.use((err,req,res,next)=>{
-	console.log(err);
-	res.status(err.status || 500).json({
-		"message":err.message || "Server Error"
-	})
-})
-```
-## Setting up Dotenv (.env)
-
-- Install dotenv
-```bash
-npm i dotenv
-```
-
-### index.js
-
-```js
-const dotenv= require("dotenv");
-dotenv.config();
-```
-
-### Usage
-
-```js
-process.env.VARIABLE
-```
-
 ## Mongoose and DB models
 
+- Install Mongoose
+```bash
+npm i mongoose
+```
+
+### Creating Models
+
+```js
+const mongoose = require("mongoose");
+
+const userSchema= new mongoose.Schema({
+	name:{
+		type:String,
+		required:true
+	},
+	email:{
+		type:String,
+		required:true
+	},
+	password:{
+		type:String,
+		required:true
+	}
+
+},{timestamps:true});
+
+module.exports= mongoose.model("User",userSchema);
+```
+
+### CRUD controller Operations
+
+```js
+const User= require("../models/User.js")
+
+//Creating a user (inserting into the db)
+
+exports.createUser= async (req,res,next)=>{
+	try{
+		const user = await User.create(req.body);
+		res.status(201).json({
+			success:true,
+			user
+		})
+	}catch(err){
+		next(err);
+		console.log(err);
+	}
+}
+//Getting all users (Getting all the data stored in the collection)
+
+exports.getUsers=async (req,res,next)=>{
+	try{
+		const users= await User.find();
+		res.json({
+			success:true,
+			users
+		})
+	}catch(err){
+		next(err)
+	}
+}
+
+//Getting a specific collection
+
+exports.getUserById= async (req,res,next)=>{
+	try{
+		const user= await User.findById(req.params.id);
+		res.json({
+			success:true,
+			user
+		})
+	}
+	catch(err){
+		next(err);
+	}
+}
+//Updating an existing collection
+
+exports.updateUserById = async (req,res,next)=>{
+	try{
+		const user= await User.findByIdAndUpdate(
+			req.params.id,
+			req.body,
+			{new:true}
+		);
+		res.json({
+			success:true,
+			user
+		})
+	}catch(err){
+		next(err);
+	}
+}
+//deleting an existing collection
+
+exports.deleteById= async (req,res,next)=>{
+	try{
+		await User.findByIdAndDelete(req.params.id);
+		res.json({
+			message:"User Deleted"
+		})
+	}
+	catch(err){
+		next(err);
+	}
+}
+```
+
+### Rou

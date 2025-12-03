@@ -39,5 +39,15 @@ const isMatching= bcrypt.compare(password,hashPassword);
 
 - Install jwt (jsonwebtoken)
 ```bash
-npm i
+npm install jsonwebtoken
+```
+- Generate a jwt token
+```js
+const jwt =require("jsonwebtoken);
+
+module.exports = (userId) =>{
+	return jwt.sign({
+		id:useId
+	})
+}
 ```

@@ -46,8 +46,18 @@ npm install jsonwebtoken
 const jwt =require("jsonwebtoken);
 
 module.exports = (userId) =>{
-	return jwt.sign({
-		id:useId
-	})
-}
+	return jwt.sign(
+		{
+			id:useId
+		},
+		process.env.JWT_SECRET,
+		{
+			expireIn:"7d"
+		}
+	);
+};
+```
+
+```.env
+JWT_SECRET=secret_word
 ```

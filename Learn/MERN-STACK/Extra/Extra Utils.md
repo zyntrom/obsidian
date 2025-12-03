@@ -28,5 +28,16 @@ npm i bcrypt
 - Usage of bcrypt
 
 ```js
-const bcrypt = require()
+
+const bcrypt = require("bcrypt);
+const hashPassword= bcrypt.hash(password,10);
+const isMatching= bcrypt.compare(password,hashPassword);
+
+```
+
+## Setting up JWT (jsonwebtoken)
+
+- Install jwt (jsonwebtoken)
+```bash
+npm i
 ```
